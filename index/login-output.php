@@ -1,47 +1,42 @@
-<?php session_start(); ?>
-<?php require '../header.php'; ?>
-<?php require 'menu.php'; ?>
+<?php session_start();?>
+<?php require "../header.php";?>
+<?php require "menu.php";?>
+<?php require 'connect.php'; ?>
+
 <?php
-unset($_SESSION['customer']);
+unset($_SESSION['customer']);?>
 
-$pdo=new PDO('mysql:host=localhost;dbname=shop;charset=utf8', 
-	'staff', 'password');
 
-//顧客テーブルからログインアカウントとパスワードがともに等しい行を選択	
+<?php
 $sql=$pdo->prepare(
-	'select * 
-	from customer 
-	where login=? '
-	// and password=?'
-);
-$sql->execute([
-	// これらが ?(プレースホルダ) に入る
-	$_REQUEST['login'] 
-]);
-
+  'SELECT * from customer 
+   where login=? ');
+$sql->execute([ $_REQUEST['login'] ]);
 
 foreach ($sql as $row) {
-	//一件しか無いが,foreachすると一行から値を取りやすい
-	if( password_verify($_REQUEST['password'] , $row['password'] )){
-		//パスワードが正しい
-			$_SESSION['customer']=[
-				'id'=>$row['id'], 
-				'name'=>$row['name'], 
-				'address'=>$row['address'], 
-				'login'=>$row['login'], 
-				// 'password'=>$row['password'] ← 使わない
-			];
-	}else{
-		echo 'ログイン名またはパスワードが違います。';
-	}
-
+  //$row は行データ loginで選択したので1行しかない
+  if( password_verify( $_REQUEST['password'] 
+  , $row['password'] ) ){
+        //↑ DBのフィールド名 $y$p...ハッシュ値
+  // trueならセッションに入れる(ログインしたことになる)     
+     $_SESSION['customer']=[
+       'id'=>$row['id'],
+       'name'=>$row['name'],
+       'address'=>$row['address'],
+       'email'=>$row['email'],  // ←追加
+       'login'=>$row['login'],
+      ];   //パスワードは消してください
+  } // end if
 }
 
-if (isset($_SESSION['customer'])) {
-	echo 'いらっしゃいませ、', $_SESSION['customer']['name'], 'さん。';
-
+ if (isset($_SESSION['customer'])) {
+   echo 'いらっしゃいませ、',
+        $_SESSION['customer']['name'], 'さん。
+        <meta http-equiv="refresh" content="1;URL=./">
+        ';
+        
 } else {
-	echo 'ログイン名またはパスワードが違います。';
+    echo 'ログイン名またはパスワードが違います。';
 }
- 
- require '../footer.php'; ?>
+?>
+<?php require "../footer.php";?>

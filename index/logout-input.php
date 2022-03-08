@@ -1,5 +1,6 @@
-<?php require '../header.php'; ?>
-<?php require_once 'connect.php'; ?>
+<?php require 'header.php'; ?>
+<?php require 'connect.php'; ?>
+<?php require 'menu.php'; ?>
 <p>ログアウトしますか？</p>
 <a href="logout-output.php">ログアウト</a>
-<?php require '../footer.php'; ?>
+<?php require 'footer.php'; ?>

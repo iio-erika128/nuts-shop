@@ -1,4 +1,4 @@
-<?php require '../header.php'; ?>
+<?php require 'header.php'; ?>
 <?php require 'connect.php'; ?>
 <table>
 <tr><th>商品番号</th><th>商品名</th><th>価格</th></tr>
@@ -16,4 +16,4 @@ echo "\n";
 }
 ?>
 </table>
-<?php require '../footer.php'; ?>
+<?php require 'footer.php'; ?>

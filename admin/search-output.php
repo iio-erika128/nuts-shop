@@ -4,7 +4,7 @@
 <?php
 $pdo=new PDO('mysql:host=localhost;dbname=IE_shop;charset=utf8', 
 'iio_erika', 'Asdf3333-');
-$sql=$pdo->prepare('select * from product where name=?');
+$sql=$pdo->prepare('select * from product where id=?');
 $sql->execute([$_REQUEST['keyword']]);
 foreach ($sql as $row) {
   echo '<tr>';
